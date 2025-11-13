@@ -1,49 +1,183 @@
-# Python
+# ========================================================================
+# SEGURANÇA - ARQUIVOS SENSÍVEIS (NUNCA COMMITAR!)
+# ========================================================================
+
+# Configurações com credenciais
+config_banco.py
+*config*.py
+!config_banco.py.example
+*.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+secrets.json
+credentials.json
+*.secret
+*.password
+
+# Arquivos com possíveis informações sensíveis
+*_secret*
+*_private*
+*_credentials*
+*_password*
+*_token*
+*_key*
+
+# ========================================================================
+# PYTHON
+# ========================================================================
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ambientes virtuais
 env/
 venv/
 ENV/
-.venv
+env.bak/
+venv.bak/
+.venv/
 
-# Banco de dados
+# ========================================================================
+# BANCOS DE DADOS
+# ========================================================================
 *.db
 *.sqlite
 *.sqlite3
+*.sql
+!SCRIPT_SQL_COMPLETO.sql
+!QUERIES_UTEIS.sql
+*.dump
+*.backup
+*.bak
 
-# Configurações sensíveis
-config_banco.py
-
-# IDEs
+# ========================================================================
+# IDEs E EDITORES
+# ========================================================================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
 
-# Sistema Operacional
+# ========================================================================
+# SISTEMA OPERACIONAL
+# ========================================================================
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 desktop.ini
+$RECYCLE.BIN/
 
-# Logs
+# ========================================================================
+# LOGS E TEMPORÁRIOS
+# ========================================================================
 *.log
-
-# Arquivos temporários
 *.tmp
 *.temp
+*.cache
+*.pid
+*.seed
+*.pid.lock
+*.swp
+*.swo
+*~
 
-# Arquivos Excel antigos (manter apenas o final)
+# ========================================================================
+# ARQUIVOS EXCEL ANTIGOS (manter apenas o final)
+# ========================================================================
 projeto_aplicado_CORRIGIDO.xlsx
 projeto_aplicado_SEM_DUPLICATAS.xlsx
 projeto_aplicado_COM_FKs_CORRETAS*.xlsx
+*_CORRIGIDO.xlsx
+*_SEM_DUPLICATAS.xlsx
+*_ANTIGO.xlsx
+*_BACKUP.xlsx
 
-# Notebooks Jupyter
+# ========================================================================
+# NOTEBOOKS JUPYTER
+# ========================================================================
 *.ipynb
+.ipynb_checkpoints/
 
-# Cache
+# ========================================================================
+# CACHE E TEMPORÁRIOS
+# ========================================================================
 .cache/
+*.cache
+.pytest_cache/
+.coverage
+htmlcov/
 
+# ========================================================================
+# ARQUIVOS DE BACKUP
+# ========================================================================
+*.bak
+*.backup
+*.old
+*.orig
+*~
+
+# ========================================================================
+# ARQUIVOS DO WINDOWS
+# ========================================================================
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ========================================================================
+# ARQUIVOS DE SISTEMA
+# ========================================================================
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.so
+*.dylib
+*.dll
+
+# ========================================================================
+# GARANTIR QUE CONFIG_BANCO.PY NUNCA SEJA COMMITADO
+# ========================================================================
+# Se por acaso foi adicionado antes, force a remoção:
+# git rm --cached config_banco.py

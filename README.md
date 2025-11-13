@@ -33,7 +33,7 @@ Este projeto implementa um processo completo de ETL que:
 
 - **`projeto_aplicado_final.xlsx`** - Planilha final com todos os dados prontos para inserção
 - **`inserir_dados_banco.py`** - Script principal para inserção de dados no PostgreSQL
-- **`config_banco.py`** - Configurações de conexão com o banco (edite com suas credenciais)
+- **`config_banco.py.example`** - Template de configuração (copie para `config_banco.py` e edite)
 - **`SCRIPT_SQL_COMPLETO.sql`** - Script SQL completo para criar a estrutura do banco
 - **`requirements.txt`** - Dependências Python do projeto
 - **`GUIA_INSERCAO_DADOS.md`** - Guia completo de como inserir os dados
@@ -73,6 +73,43 @@ O script irá:
 - Python 3.7+
 - PostgreSQL (pgAdmin4)
 - Bibliotecas: pandas, psycopg2-binary, openpyxl
+
+## 🔒 Segurança
+
+⚠️ **IMPORTANTE**: Este repositório é público. O arquivo `config_banco.py` contém credenciais sensíveis e **NÃO** deve ser commitado.
+
+### ✅ Proteções Implementadas
+
+- ✅ `config_banco.py` está no `.gitignore` e **nunca será commitado**
+- ✅ Apenas `config_banco.py.example` (template sem senha) está no repositório
+- ✅ Script de verificação de segurança: `python verificar_seguranca.py`
+
+### 📝 Antes de Fazer Commit
+
+Sempre execute antes de commitar:
+```bash
+python verificar_seguranca.py
+```
+
+Este script verifica se nenhum arquivo sensível está sendo rastreado pelo Git.
+
+### 🚨 Se Você Acidentalmente Commitou `config_banco.py`
+
+Se por acaso você commitou `config_banco.py` acidentalmente:
+
+1. **Remova do Git** (mas mantenha localmente):
+   ```bash
+   git rm --cached config_banco.py
+   ```
+
+2. **Faça commit da remoção**:
+   ```bash
+   git commit -m "Remove config_banco.py (arquivo sensível)"
+   ```
+
+3. **Se já fez push**, considere:
+   - Alterar a senha do banco de dados
+   - Usar `git filter-branch` ou `BFG Repo-Cleaner` para remover do histórico
 
 ## 📖 Documentação
 
