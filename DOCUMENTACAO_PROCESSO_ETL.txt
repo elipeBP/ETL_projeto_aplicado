@@ -1,0 +1,469 @@
+================================================================================
+DOCUMENTAÇÃO DO PROCESSO ETL
+Planilha Excel → Transformação → Banco PostgreSQL
+================================================================================
+
+VISÃO GERAL
+================================================================================
+
+Este documento descreve o processo completo de Extract, Transform, Load (ETL) 
+implementado para migrar dados de uma planilha Excel (.xlsx) para um banco de 
+dados PostgreSQL.
+
+Fluxo do Processo:
+Planilha Excel (projeto_aplicado_final.xlsx)
+    ↓
+[Extract] Leitura das abas com pandas
+    ↓
+[Transform] Normalização e mapeamento de colunas
+    ↓
+[Load] Inserção no PostgreSQL respeitando dependências
+    ↓
+Banco PostgreSQL (Projeto_Aplicado) preenchido
+
+
+ARQUITETURA DO SISTEMA
+================================================================================
+
+Componentes Principais
+
+1. Arquivo de Entrada: projeto_aplicado_final.xlsx
+   - Formato: Excel (.xlsx)
+   - Estrutura: Múltiplas abas (uma por tabela)
+   - Encoding: UTF-8
+
+2. Script de Processamento: inserir_dados_banco.py
+   - Linguagem: Python 3.7+
+   - Bibliotecas: pandas, psycopg2-binary, openpyxl
+
+3. Configuração: config_banco.py
+   - Credenciais de conexão PostgreSQL
+   - Parâmetros de conexão
+
+4. Banco de Dados: PostgreSQL
+   - Nome: Projeto_Aplicado
+   - Estrutura: 12 tabelas relacionadas
+
+
+ESTRUTURA DE DADOS
+================================================================================
+
+Mapeamento Abas Excel → Tabelas Banco
+
+Aba Excel              | Tabela PostgreSQL      | Descrição
+-----------------------|------------------------|--------------------------
+ESTADO                 | estado                 | Estados brasileiros
+CIDADE                 | cidade                 | Cidades por estado
+BAIRRO                 | bairro                 | Bairros por cidade
+TIPO_LOGRADOURO        | tipo_logradouro        | Tipos de logradouro
+ENDERECO               | endereco               | Endereços completos
+TELEFONE               | telefone               | Números de telefone
+CONTATO                | contato                | Contatos (email + telefone)
+CONTATO_TELEFONE       | contato_telefone       | Relação N-N contato-telefone
+CENTROS_INOVACAO       | centros_inovacao       | Centros de inovação
+ENDERECO_CENTRO        | endereco_centro        | Relação N-N centro-endereço
+ATOR                   | ator                   | Atores dos centros
+PROGRAMA               | programa               | Programas dos atores
+
+Ordem de Dependências (Foreign Keys)
+
+A inserção segue esta ordem para respeitar as dependências:
+
+1. estado (sem dependências)
+   ↓
+2. cidade (FK: id_estado)
+   ↓
+3. bairro (FK: id_cidade)
+   ↓
+4. tipo_logradouro (sem dependências)
+   ↓
+5. endereco (FK: id_tipo_logradouro, id_bairro)
+   ↓
+6. telefone (sem dependências)
+   ↓
+7. contato (FK: id_telefone)
+   ↓
+8. contato_telefone (FK: id_contato, id_telefone)
+   ↓
+9. centros_inovacao (FK: id_contato)
+   ↓
+10. endereco_centro (FK: id_endereco, id_centro)
+    ↓
+11. ator (FK: id_centro)
+    ↓
+12. programa (FK: id_ator)
+
+
+PROCESSO ETL DETALHADO
+================================================================================
+
+FASE 1: EXTRACT (Extração)
+
+Objetivo: Ler dados da planilha Excel
+
+Implementação:
+- Utiliza pandas.read_excel() para ler todas as abas
+- Prioriza arquivos com sufixo *FINAL.xlsx
+- Detecta automaticamente todas as abas disponíveis
+- Mantém estrutura original dos dados
+
+Código-chave:
+# Busca arquivo Excel
+arquivos_xlsx = list(Path('.').glob('*.xlsx'))
+arquivo_final = [f for f in arquivos_xlsx if 'FINAL' in f.name.upper()][0]
+
+# Lê todas as abas
+abas_excel = pd.read_excel(arquivo_final, sheet_name=None)
+
+
+FASE 2: TRANSFORM (Transformação)
+
+Objetivo: Normalizar e mapear dados para estrutura do banco
+
+2.1 Normalização de Nomes de Colunas
+
+Problema: Colunas no Excel podem ter variações:
+- Id_Ator, id_ator, Id_Ator(PK), Id_Ator (FK)
+- E-mail, email, Email
+- Espaços, acentos, caracteres especiais
+
+Solução: Função normalizar_nome_coluna()
+- Remove acentos
+- Converte para minúsculas
+- Remove sufixos (FK), (PK)
+- Substitui espaços/hífens por underscore
+- Case-insensitive matching
+
+Exemplo:
+Excel: "Id_Ator (FK)" → Normalizado: "id_ator"
+Banco: "id_ator" → Match! OK
+
+2.2 Mapeamento Inteligente de Colunas
+
+Função: mapear_colunas_planilha_para_banco()
+
+Processo:
+1. Obtém colunas do banco via information_schema.columns
+2. Para cada coluna do banco, busca correspondente na planilha
+3. Usa normalização para encontrar matches
+4. Aplica mapeamentos especiais quando necessário
+5. Retorna dicionário: {coluna_banco: coluna_planilha}
+
+Mapeamentos Especiais:
+mapeamentos_especiais = {
+    'email': ['e-mail', 'email', 'e_mail'],
+    'id_endereco': ['id_endereço', 'id_endereco'],
+    # ... outros mapeamentos
+}
+
+2.3 Conversão de Tipos de Dados
+
+Conversões Automáticas:
+
+Tipo Excel              | Tipo PostgreSQL       | Conversão
+------------------------|------------------------|--------------------------
+object (string)         | VARCHAR, TEXT          | Mantém como string
+int64                   | INTEGER                | Conversão direta
+float64                 | NUMERIC, REAL          | Conversão direta
+datetime64              | DATE                   | pd.to_datetime().date()
+object (data)           | DATE                   | Parse de string para date
+NaN                     | NULL                   | Tratamento de nulos
+
+Tratamento de Nulos:
+- NaN → None (NULL no SQL)
+- Strings vazias → None
+- Valores inválidos → None
+
+Tratamento de Datas:
+if tipo_banco == 'date':
+    if pd.isna(valor):
+        return None
+    if isinstance(valor, str):
+        return pd.to_datetime(valor, errors='coerce').date()
+    if isinstance(valor, pd.Timestamp):
+        return valor.date()
+
+
+FASE 3: LOAD (Carregamento)
+
+Objetivo: Inserir dados no PostgreSQL respeitando integridade
+
+3.1 Estratégia de Inserção
+
+Método Principal: Bulk Insert com execute_values()
+- Insere múltiplas linhas em uma única query
+- Mais eficiente que inserções individuais
+- Usa ON CONFLICT DO NOTHING para evitar duplicatas
+
+Fallback: Inserção Individual
+- Se bulk insert falhar, tenta linha por linha
+- Permite identificar exatamente qual linha causou erro
+- Útil para debug de Foreign Key violations
+
+3.2 Tratamento de Duplicatas
+
+Estratégia: ON CONFLICT DO NOTHING
+INSERT INTO tabela (col1, col2, ...)
+VALUES (%s, %s, ...)
+ON CONFLICT (primary_key) DO NOTHING;
+
+Benefícios:
+- Não gera erro ao tentar inserir duplicata
+- Permite reexecutar script sem problemas
+- Mantém integridade dos dados
+
+3.3 Validação de Constraints
+
+Antes da Inserção:
+- Consulta information_schema.columns para obter:
+  - Tipos de dados
+  - Colunas NOT NULL
+  - Chaves primárias
+
+Durante a Inserção:
+- Valida tipos antes de inserir
+- Trata valores nulos em colunas NOT NULL
+- Respeita Foreign Keys na ordem de inserção
+
+3.4 Transações
+
+Uso de Transações:
+- Cada tabela é inserida em uma transação
+- Se houver erro, apenas aquela tabela é revertida
+- Outras tabelas já inseridas permanecem no banco
+- Permite continuidade mesmo com erros parciais
+
+
+FUNCIONALIDADES IMPLEMENTADAS
+================================================================================
+
+1. Detecção Automática de Arquivo
+
+O script procura automaticamente por:
+1. *FINAL.xlsx (prioridade máxima)
+2. *SEM_DUPLICATAS.xlsx
+3. *CORRIGIDO.xlsx
+4. Qualquer .xlsx no diretório
+
+2. Mapeamento Inteligente de Colunas
+
+- Case-insensitive: Id_Ator = id_ator = ID_ATOR
+- Acento-insensitive: Endereço = Endereco
+- Sufixo-flexível: Id_Ator(FK) = Id_Ator(PK) = Id_Ator
+- Espaço-flexível: Id Ator = Id_Ator
+
+3. Conversão Automática de Tipos
+
+- Detecta tipo da coluna no banco
+- Converte automaticamente valores da planilha
+- Trata casos especiais (datas, nulos, strings)
+
+4. Tratamento Robusto de Erros
+
+- Erro de conexão: Mensagem clara com possíveis causas
+- Erro de coluna: Lista colunas disponíveis na planilha
+- Erro de FK: Identifica qual Foreign Key está faltando
+- Erro de tipo: Mostra valor problemático e tipo esperado
+
+5. Logging Detalhado
+
+- Progresso por tabela
+- Contagem de registros inseridos
+- Resumo final com estatísticas
+- Identificação de tabelas com problemas
+
+
+EXEMPLO DE EXECUÇÃO
+================================================================================
+
+Entrada
+
+Arquivo: projeto_aplicado_final.xlsx
+- 12 abas (ESTADO, CIDADE, BAIRRO, ...)
+- ~1000+ registros no total
+- Colunas com variações de nomenclatura
+
+Processamento
+
+1. Detecta arquivo: projeto_aplicado_final.xlsx OK
+2. Lê 12 abas do Excel OK
+3. Conecta ao PostgreSQL (Projeto_Aplicado) OK
+4. Processa cada tabela na ordem de dependências:
+   - estado: 27 registros inseridos OK
+   - cidade: 150 registros inseridos OK
+   - bairro: 300 registros inseridos OK
+   - ...
+   - programa: 50 registros inseridos OK
+5. Resumo: 12 tabelas, 1000+ registros OK
+
+Saída
+
+Banco PostgreSQL: Projeto_Aplicado
+- 12 tabelas populadas
+- Todas as Foreign Keys respeitadas
+- Dados validados e normalizados
+- Pronto para consultas
+
+
+CONFIGURAÇÃO
+================================================================================
+
+Arquivo: config_banco.py
+
+CONFIG_BANCO = {
+    'host': 'localhost',           # Servidor PostgreSQL
+    'port': 5432,                  # Porta padrão
+    'database': 'Projeto_Aplicado', # Nome do banco
+    'user': 'postgres',            # Usuário
+    'password': 'sua_senha'        # Senha
+}
+
+Dependências Python
+
+pandas>=1.3.0
+psycopg2-binary>=2.9.0
+openpyxl>=3.0.0
+
+Instalação:
+pip install -r requirements.txt
+
+
+COMO EXECUTAR
+================================================================================
+
+Passo 1: Preparar Ambiente
+
+1. Instalar PostgreSQL e criar banco Projeto_Aplicado
+2. Executar SCRIPT_SQL_COMPLETO.sql para criar estrutura
+3. Configurar config_banco.py com credenciais
+
+Passo 2: Preparar Dados
+
+1. Garantir que projeto_aplicado_final.xlsx está no diretório
+2. Verificar que todas as abas estão presentes
+3. Validar que dados estão corretos
+
+Passo 3: Executar Script
+
+python inserir_dados_banco.py
+
+Passo 4: Verificar Resultado
+
+python verificar_insercao.py
+
+Ou executar queries SQL no pgAdmin para validar os dados.
+
+
+VALIDAÇÃO DOS DADOS
+================================================================================
+
+Verificação Automática
+
+O script verificar_insercao.py consulta:
+- Contagem de registros por tabela
+- Verificação de Foreign Keys
+- Estatísticas gerais
+
+Queries de Validação
+
+Consulte QUERIES_UTEIS.sql para:
+- Relatórios completos
+- Análises estatísticas
+- Buscas e filtros
+- Dashboards
+
+
+CARACTERÍSTICAS TÉCNICAS
+================================================================================
+
+Performance
+
+- Bulk Insert: Usa execute_values() para inserções em lote
+- Transações Otimizadas: Uma transação por tabela
+- Mapeamento em Memória: Colunas mapeadas uma vez por tabela
+
+Robustez
+
+- Tolerante a Variações: Aceita diferentes nomenclaturas
+- Resiliente a Erros: Continua processando mesmo com erros parciais
+- Idempotente: Pode ser executado múltiplas vezes sem duplicar dados
+
+Manutenibilidade
+
+- Código Modular: Funções bem definidas
+- Logging Claro: Mensagens informativas
+- Configuração Externa: Credenciais em arquivo separado
+
+
+RESULTADO FINAL
+================================================================================
+
+Após a execução bem-sucedida:
+
+OK 12 tabelas populadas no banco PostgreSQL
+OK 1000+ registros inseridos com integridade garantida
+OK Todas as Foreign Keys respeitadas
+OK Dados normalizados e validados
+OK Sistema pronto para consultas e análises
+
+
+ARQUIVOS RELACIONADOS
+================================================================================
+
+- inserir_dados_banco.py - Script principal ETL
+- config_banco.py - Configurações de conexão
+- SCRIPT_SQL_COMPLETO.sql - Estrutura do banco
+- verificar_insercao.py - Validação pós-inserção
+- QUERIES_UTEIS.sql - Queries de análise
+- projeto_aplicado_final.xlsx - Planilha de entrada
+
+
+FLUXOGRAMA DO PROCESSO
+================================================================================
+
+┌─────────────────────────┐
+│  Planilha Excel (.xlsx) │
+│  projeto_aplicado_final  │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│   EXTRACT (Extração)    │
+│  pandas.read_excel()    │
+│  - Lê todas as abas     │
+│  - Mantém estrutura     │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│  TRANSFORM (Transform)  │
+│  - Normaliza colunas    │
+│  - Mapeia para banco    │
+│  - Converte tipos       │
+│  - Trata nulos/datas    │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│   LOAD (Carregamento)   │
+│  - Respeita ordem FK    │
+│  - Bulk insert          │
+│  - ON CONFLICT          │
+│  - Transações           │
+└───────────┬─────────────┘
+            │
+            ▼
+┌─────────────────────────┐
+│  Banco PostgreSQL       │
+│  Projeto_Aplicado       │
+│  - 12 tabelas           │
+│  - Dados completos      │
+└─────────────────────────┘
+
+
+================================================================================
+Documentação criada em: 2024
+Versão do Processo: 1.0
+Status: Funcional e Validado
+================================================================================
+

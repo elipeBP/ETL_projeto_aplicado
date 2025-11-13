@@ -1,0 +1,32 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+CONFIGURAÇÕES DE CONEXÃO COM O BANCO POSTGRESQL
+Edite este arquivo com suas credenciais
+
+INSTRUÇÕES:
+1. Copie este arquivo para config_banco.py
+2. Edite config_banco.py com suas credenciais reais
+3. NUNCA faça commit do config_banco.py (ele está no .gitignore)
+"""
+
+# ⚠️ CONFIGURE SUAS CREDENCIAIS AQUI ⚠️
+CONFIG_BANCO = {
+    'host': 'localhost',           # Endereço do servidor (geralmente localhost)
+    'port': 5432,                  # Porta do PostgreSQL (padrão: 5432)
+    'database': 'Projeto_Aplicado', # Nome do banco de dados
+    'user': 'postgres',            # Usuário do banco
+    'password': 'SUA_SENHA_AQUI'   # ⚠️ COLOQUE SUA SENHA AQUI
+}
+
+# Como obter essas informações no pgAdmin4:
+# 1. Clique com botão direito no servidor PostgreSQL
+# 2. Selecione "Properties" (Propriedades)
+# 3. Vá na aba "Connection" (Conexão)
+# 4. Copie as informações:
+#    - Host name/address → host
+#    - Port → port
+#    - Username → user
+#    - Password → password (você já sabe)
+# 5. Para o database, veja em Databases → Projeto_Aplicado
+

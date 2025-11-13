@@ -1,0 +1,8 @@
+# Dependências para conexão PostgreSQL
+psycopg2-binary>=2.9.9
+pandas>=2.0.0
+
+# Dependências existentes (se houver)
+# openpyxl>=3.1.0  # Para trabalhar com Excel
+# xlsxwriter>=3.1.0
+

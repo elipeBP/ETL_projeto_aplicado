@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# Banco de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# Configurações sensíveis
+config_banco.py
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Sistema Operacional
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Arquivos Excel antigos (manter apenas o final)
+projeto_aplicado_CORRIGIDO.xlsx
+projeto_aplicado_SEM_DUPLICATAS.xlsx
+projeto_aplicado_COM_FKs_CORRETAS*.xlsx
+
+# Notebooks Jupyter
+*.ipynb
+
+# Cache
+.cache/
+
