@@ -1,0 +1,311 @@
+================================================================================
+QUESTIONÁRIO PARA CRIAÇÃO DO DICIONÁRIO DE DADOS
+Sistema de Gestão de Centros de Inovação
+================================================================================
+
+Este questionário foi criado para coletar informações específicas sobre os 
+conceitos de negócio do sistema, permitindo a criação de um dicionário de 
+dados completo e profissional.
+
+INSTRUÇÕES:
+- Responda cada pergunta de forma clara e detalhada
+- Se não souber alguma resposta, deixe em branco ou escreva "Não sei"
+- As respostas serão usadas para criar definições técnicas no dicionário
+
+================================================================================
+SEÇÃO 1: CONCEITOS GERAIS DO SISTEMA
+================================================================================
+
+1.1. O que é um CENTRO DE INOVAÇÃO?
+   [Espaço para resposta]
+   
+   Exemplo: "Um centro de inovação é..."
+   
+   ___________________________________________________________________________
+
+1.2. Qual é o objetivo principal deste sistema de gestão de centros de inovação?
+   [Espaço para resposta]
+   
+   ___________________________________________________________________________
+
+1.3. Quem são os principais usuários deste sistema?
+   [Espaço para resposta]
+   
+   ___________________________________________________________________________
+
+================================================================================
+SEÇÃO 2: CONCEITOS SOBRE ATORES
+================================================================================
+
+2.1. O que é um ATOR no contexto deste sistema?
+   [Espaço para resposta]
+   
+   ___________________________________________________________________________
+
+2.2. O que significa "EMPRESA INCUBADA"?
+   [Espaço para resposta]
+   
+   ___________________________________________________________________________
+
+2.3. Quais são os diferentes TIPOS DE ATORES que podem existir no sistema?
+   (Exemplo: Empresa, Startup, Laboratório, etc.)
+   
+   Para cada tipo, explique o que significa:
+   
+   Tipo 1: _________________________
+   Definição: _____________________________________________________________
+   
+   Tipo 2: _________________________
+   Definição: _____________________________________________________________
+   
+   Tipo 3: _________________________
+   Definição: _____________________________________________________________
+   
+   Outros tipos: ___________________________________________________________
+
+2.4. O que significa o campo "TAMANHO_ATOR"?
+   Quais são os valores possíveis e o que cada um representa?
+   
+   Valor 1: _________________________
+   Definição: _____________________________________________________________
+   
+   Valor 2: _________________________
+   Definição: _____________________________________________________________
+   
+   Valor 3: _________________________
+   Definição: _____________________________________________________________
+   
+   Critério de classificação: _______________________________________________
+
+2.5. O que significa "PARTICIPA_PROGRAMA"?
+   Quando um ator "participa de programa" e quando não participa?
+   
+   ___________________________________________________________________________
+
+2.6. Um ator pode estar associado a mais de um centro de inovação?
+   [ ] Sim  [ ] Não
+   
+   Se sim, explique como isso funciona:
+   ___________________________________________________________________________
+
+================================================================================
+SEÇÃO 3: CONCEITOS SOBRE PROGRAMAS
+================================================================================
+
+3.1. O que é um PROGRAMA no contexto deste sistema?
+   [Espaço para resposta]
+   
+   ___________________________________________________________________________
+
+3.2. Quais são os tipos de programas que podem existir?
+   (Exemplo: Programa de Incubação, Aceleração, Mentoria, etc.)
+   
+   Tipo 1: _________________________
+   Definição: _____________________________________________________________
+   
+   Tipo 2: _________________________
+   Definição: _____________________________________________________________
+   
+   Outros tipos: ___________________________________________________________
+
+3.3. Qual é a diferença entre um programa e um projeto?
+   ___________________________________________________________________________
+
+3.4. O que significa o campo "ANO_INICIO" de um programa?
+   É a data em que o programa começou a ser oferecido pelo ator?
+   É a data em que um ator específico entrou no programa?
+   
+   ___________________________________________________________________________
+
+3.5. Um programa pode ser oferecido por mais de um ator?
+   [ ] Sim  [ ] Não
+   
+   ___________________________________________________________________________
+
+3.6. Um ator pode ter mais de um programa?
+   [ ] Sim  [ ] Não
+   
+   ___________________________________________________________________________
+
+================================================================================
+SEÇÃO 4: CONCEITOS SOBRE CENTROS DE INOVAÇÃO
+================================================================================
+
+4.1. O que significa o campo "ANO_FUNDACAO" de um centro de inovação?
+   É a data exata de fundação ou apenas o ano?
+   
+   ___________________________________________________________________________
+
+4.2. Um centro de inovação pode ter mais de um endereço?
+   [ ] Sim  [ ] Não
+   
+   Se sim, em que situações isso acontece?
+   ___________________________________________________________________________
+
+4.3. Um centro de inovação pode ter mais de um contato (email/telefone)?
+   [ ] Sim  [ ] Não
+   
+   ___________________________________________________________________________
+
+4.4. Qual é a relação entre um centro de inovação e os atores?
+   Os atores são "clientes" do centro? São "parceiros"? São "membros"?
+   
+   ___________________________________________________________________________
+
+================================================================================
+SEÇÃO 5: CONCEITOS SOBRE ENDEREÇOS E LOCALIZAÇÃO
+================================================================================
+
+5.1. O que são os TIPOS DE LOGRADOURO?
+   Liste os tipos mais comuns e explique quando usar cada um:
+   
+   Tipo 1: _________________________
+   Quando usar: _____________________________________________________________
+   
+   Tipo 2: _________________________
+   Quando usar: _____________________________________________________________
+   
+   Outros tipos: ___________________________________________________________
+
+5.2. O campo "NUMERO" do endereço é obrigatório?
+   [ ] Sim  [ ] Não
+   
+   O que fazer quando não há número (ex: sítio, chácara)?
+   ___________________________________________________________________________
+
+5.3. Como funciona a hierarquia: Estado → Cidade → Bairro?
+   Um bairro sempre pertence a uma única cidade?
+   Uma cidade sempre pertence a um único estado?
+   
+   ___________________________________________________________________________
+
+================================================================================
+SEÇÃO 6: CONCEITOS SOBRE CONTATOS
+================================================================================
+
+6.1. O que é um CONTATO no sistema?
+   É apenas um email + telefone, ou pode ter mais informações?
+   
+   ___________________________________________________________________________
+
+6.2. Um contato pode ter mais de um telefone?
+   [ ] Sim  [ ] Não
+   
+   Se sim, como isso é representado no sistema?
+   ___________________________________________________________________________
+
+6.3. O email é obrigatório para um contato?
+   [ ] Sim  [ ] Não
+   
+   ___________________________________________________________________________
+
+6.4. O que significa o campo "CODIGO_AREA" do telefone?
+   É sempre obrigatório?
+   
+   ___________________________________________________________________________
+
+================================================================================
+SEÇÃO 7: REGRAS DE NEGÓCIO E VALIDAÇÕES
+================================================================================
+
+7.1. Existem regras específicas para o CNPJ de um ator?
+   (Exemplo: sempre deve ter 14 dígitos, pode ser nulo, etc.)
+   
+   ___________________________________________________________________________
+
+7.2. Existem valores padrão ou restrições para os campos?
+   (Exemplo: tamanho_ator só pode ser "Pequeno", "Médio" ou "Grande")
+   
+   Campo: _________________________
+   Valores permitidos: _______________________________________________________
+   
+   Campo: _________________________
+   Valores permitidos: _______________________________________________________
+
+7.3. Existem campos que são obrigatórios mas podem ficar vazios temporariamente?
+   (Exemplo: um ator pode ser cadastrado sem CNPJ inicialmente)
+   
+   ___________________________________________________________________________
+
+7.4. O que acontece quando um centro de inovação é excluído?
+   Os atores associados também são excluídos?
+   Os programas dos atores são excluídos?
+   
+   ___________________________________________________________________________
+
+================================================================================
+SEÇÃO 8: TERMINOLOGIA E SINÔNIMOS
+================================================================================
+
+8.1. Existem outros termos que são usados para se referir a "Centro de Inovação"?
+   (Exemplo: Hub, Parque Tecnológico, Incubadora, etc.)
+   
+   ___________________________________________________________________________
+
+8.2. Existem outros termos que são usados para se referir a "Ator"?
+   (Exemplo: Empresa, Organização, Entidade, etc.)
+   
+   ___________________________________________________________________________
+
+8.3. Existem outros termos que são usados para se referir a "Programa"?
+   (Exemplo: Projeto, Iniciativa, Serviço, etc.)
+   
+   ___________________________________________________________________________
+
+================================================================================
+SEÇÃO 9: CONTEXTO E OBJETIVOS DE USO
+================================================================================
+
+9.1. Para que este sistema será usado principalmente?
+   (Exemplo: Relatórios, Análises, Gestão operacional, etc.)
+   
+   ___________________________________________________________________________
+
+9.2. Quais são as principais consultas/relatórios que serão gerados?
+   (Exemplo: Lista de atores por centro, Programas por região, etc.)
+   
+   Consulta 1: _____________________________________________________________
+   Consulta 2: _____________________________________________________________
+   Consulta 3: _____________________________________________________________
+
+9.3. Existem métricas ou indicadores importantes que o sistema deve calcular?
+   (Exemplo: Total de atores por centro, Taxa de participação em programas, etc.)
+   
+   Métrica 1: _____________________________________________________________
+   Métrica 2: _____________________________________________________________
+
+================================================================================
+SEÇÃO 10: INFORMAÇÕES ADICIONAIS
+================================================================================
+
+10.1. Existe alguma documentação, norma ou padrão que define esses conceitos?
+    (Exemplo: Norma ISO, Lei específica, Manual de procedimentos, etc.)
+    
+    ___________________________________________________________________________
+
+10.2. Há alguma informação adicional que você considera importante para o 
+     dicionário de dados?
+    
+    ___________________________________________________________________________
+
+10.3. Existem campos ou conceitos que você gostaria de adicionar ao sistema 
+     no futuro?
+    
+    ___________________________________________________________________________
+
+================================================================================
+FIM DO QUESTIONÁRIO
+================================================================================
+
+Após preencher este questionário, as respostas serão usadas para criar um 
+dicionário de dados completo e profissional, incluindo:
+
+- Definições claras de cada tabela
+- Definições detalhadas de cada coluna
+- Explicações dos relacionamentos entre tabelas
+- Regras de negócio e validações
+- Exemplos de uso
+- Glossário de termos técnicos
+
+Obrigado por preencher este questionário!
+

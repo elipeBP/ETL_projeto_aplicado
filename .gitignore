@@ -25,6 +25,10 @@ credentials.json
 *_token*
 *_key*
 
+# Respostas de questionários (podem conter informações internas)
+respostas_dicionario_dados.json
+*_respostas*.json
+
 # ========================================================================
 # PYTHON
 # ========================================================================
