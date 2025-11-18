@@ -1,0 +1,176 @@
+================================================================================
+RELATÓRIO COMPLETO DO BANCO DE DADOS
+Sistema de Gestão de Centros de Inovação
+================================================================================
+
+Data/Hora da Análise: 17/11/2025 23:14:29
+Banco de Dados: Projeto_Aplicado
+
+================================================================================
+1. RESUMO GERAL - REGISTROS POR TABELA
+================================================================================
+
+   ✅ estado                    →         27 registros
+   ✅ cidade                    →        295 registros
+   ✅ bairro                    →         18 registros
+   ✅ tipo_logradouro           →         14 registros
+   ✅ endereco                  →         20 registros
+   ✅ telefone                  →         20 registros
+   ✅ contato                   →         20 registros
+   ✅ contato_telefone          →         20 registros
+   ✅ centros_inovacao          →         20 registros
+   ✅ endereco_centro           →         20 registros
+   ✅ ator                      →        590 registros
+   ✅ programa                  →         25 registros
+
+📊 TOTAL GERAL DE REGISTROS: 1.089
+✅ Tabelas com dados: 12/12
+
+================================================================================
+2. DISTRIBUIÇÃO GEOGRÁFICA
+================================================================================
+
+2.1. ESTADOS COM CENTROS DE INOVAÇÃO:
+--------------------------------------------------------------------------------
+    1. Santa Catarina                 (SC) →    20 centro(s)
+
+2.2. TOP 10 CIDADES COM MAIS CENTROS:
+--------------------------------------------------------------------------------
+    1. Florianópolis                  (SC) →     6 centro(s)
+    2. Blumenau                       (SC) →     2 centro(s)
+    3. Brusque                        (SC) →     1 centro(s)
+    4. Caçador                        (SC) →     1 centro(s)
+    5. Chapecó                        (SC) →     1 centro(s)
+    6. Itajaí                         (SC) →     1 centro(s)
+    7. Jaraguá do Sul                 (SC) →     1 centro(s)
+    8. Joaçaba                        (SC) →     1 centro(s)
+    9. Joinville                      (SC) →     1 centro(s)
+   10. Lages                          (SC) →     1 centro(s)
+
+================================================================================
+3. ANÁLISE DE CENTROS DE INOVAÇÃO
+================================================================================
+
+3.1. TOTAL DE CENTROS: 20
+
+3.2. TOP 5 CENTROS MAIS ANTIGOS:
+--------------------------------------------------------------------------------
+   1. CELTA                                              → Fundado em 1986
+   2. CIA Primavera                                      → Fundado em 1986
+   3. CIA Sapiens                                        → Fundado em 1986
+   4. Sapiens park                                       → Fundado em 2002
+   5. Orion Parque                                       → Fundado em 2016
+
+3.3. TOP 5 CENTROS MAIS NOVOS:
+--------------------------------------------------------------------------------
+   1. Sigma Park                                         → Fundado em 2024
+   2. Centro de Inovação de
+Criciúma                     → Fundado em 2024
+   3. Elume Park                                         → Fundado em 2023
+   4. Pollen Parque 
+Científico e Tecnológico            → Fundado em 2021
+   5. institutoGene                                      → Fundado em 2020
+
+================================================================================
+4. ANÁLISE DE ATORES
+================================================================================
+
+4.1. TOTAL DE ATORES: 590
+
+4.2. DISTRIBUIÇÃO DE ATORES POR TIPO:
+--------------------------------------------------------------------------------
+   residente                      →   223 ( 37.8%)
+   associadas                     →   192 ( 32.5%)
+   incubadas                      →   104 ( 17.6%)
+   Incubadas e residentes         →    49 (  8.3%)
+   patrocinador                   →    22 (  3.7%)
+
+4.3. DISTRIBUIÇÃO DE ATORES POR TAMANHO:
+--------------------------------------------------------------------------------
+   Pequena                        →   274 ( 46.4%)
+   Média                          →   122 ( 20.7%)
+   Grande                         →   111 ( 18.8%)
+   pequena                        →    62 ( 10.5%)
+   media                          →    14 (  2.4%)
+   grande                         →     4 (  0.7%)
+   média                          →     3 (  0.5%)
+
+4.4. ATORES QUE PARTICIPAM DE PROGRAMAS:
+--------------------------------------------------------------------------------
+   Nao                            →   487 ( 82.5%)
+   Sim/com_programa               →    63 ( 10.7%)
+   Sim                            →    40 (  6.8%)
+
+4.5. DISTRIBUIÇÃO DE ATORES POR CENTRO:
+--------------------------------------------------------------------------------
+   institutoGene                                      →    68 ator(es)
+   Orion Parque                                       →    66 ator(es)
+   Ágora Tech Park                                    →    54 ator(es)
+   Sapiens park                                       →    49 ator(es)
+   CIA Primavera                                      →    37 ator(es)
+   Pollen Parque 
+Científico e Tecnológico            →    37 ator(es)
+   CELTA                                              →    35 ator(es)
+   Planalto Norte                                     →    33 ator(es)
+   Centro de Inovação de
+Criciúma                     →    33 ator(es)
+   Elume Park                                         →    29 ator(es)
+
+================================================================================
+5. ANÁLISE DE PROGRAMAS
+================================================================================
+
+5.1. TOTAL DE PROGRAMAS: 25
+
+5.2. DISTRIBUIÇÃO DE PROGRAMAS POR ATOR:
+--------------------------------------------------------------------------------
+   CIEE                                               →     2 programa(s)
+   SENAI / SESI / FIESC                               →     2 programa(s)
+   SEBRAE                                             →     1 programa(s)
+   Banco Regional de Desenvolvimento do Extremo Sul – BRDE →     1 programa(s)
+   FAPESC – Fundação de Amparo à Pesquisa e Inovação do Estado de SC →     1 programa(s)
+   Unimed                                             →     1 programa(s)
+   Buhler                                             →     1 programa(s)
+   Sebrae/SC                                          →     1 programa(s)
+   Prefeitura Municipal de Videira                    →     1 programa(s)
+   Embraer                                            →     1 programa(s)
+
+5.3. DISTRIBUIÇÃO DE PROGRAMAS POR CENTRO:
+--------------------------------------------------------------------------------
+   Dante Martorano                                    →     6 programa(s)
+   Sigma Park                                         →     3 programa(s)
+   Ágora Tech Park                                    →     3 programa(s)
+   Planalto Norte                                     →     3 programa(s)
+   Sapiens park                                       →     2 programa(s)
+   CELTA                                              →     2 programa(s)
+   Inova Contestado                                   →     2 programa(s)
+   TXM Methods                                        →     1 programa(s)
+   CIA Downtown                                       →     1 programa(s)
+   Elume Park                                         →     1 programa(s)
+
+================================================================================
+6. ESTATÍSTICAS DE RELACIONAMENTOS
+================================================================================
+
+6.1. MÉDIA DE ATORES POR CENTRO: 29.50
+
+6.2. MÉDIA DE PROGRAMAS POR ATOR: 0.04
+
+6.3. MÉDIA DE ENDEREÇOS POR CENTRO: 1.00
+
+================================================================================
+7. DADOS COMPLEMENTARES
+================================================================================
+
+7.1. TOTAL DE ESTADOS: 27
+7.2. TOTAL DE CIDADES: 295
+7.3. TOTAL DE BAIRROS: 18
+7.4. TOTAL DE ENDEREÇOS: 20
+7.5. TOTAL DE CONTATOS: 20
+7.6. TOTAL DE TELEFONES: 20
+
+================================================================================
+FIM DO RELATÓRIO
+================================================================================
+
+Relatório gerado em: 17/11/2025 23:14:30

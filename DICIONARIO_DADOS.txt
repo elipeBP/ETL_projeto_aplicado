@@ -1,0 +1,932 @@
+================================================================================
+DICIONÁRIO DE DADOS
+Sistema de Gestão de Centros de Inovação
+Rede Catarinense de Centros de Inovação
+================================================================================
+
+Data de Criação: 17/11/2025
+Versão: 1.0
+Banco de Dados: Projeto_Aplicado (PostgreSQL)
+
+================================================================================
+1. INTRODUÇÃO
+================================================================================
+
+Este dicionário de dados descreve a estrutura completa do banco de dados do 
+Sistema de Gestão de Centros de Inovação, desenvolvido para a Rede Catarinense 
+de Centros de Inovação, com foco em apoiar o Programa Prototipando a Quebrada 
+(PAQ) e ações de inclusão produtiva.
+
+OBJETIVO DO SISTEMA:
+O principal objetivo do sistema de gestão dos Centros de Inovação é estruturar, 
+articular e qualificar o ecossistema de inovação regional e estadual: conectar 
+empreendedores, startups, empresas, instituições de pesquisa e investidores; 
+fomentar a cultura de inovação nas empresas e regiões; apoiar os negócios desde 
+a ideia até escala; e distribuir oportunidades e recursos para que o 
+desenvolvimento tecnológico e econômico seja mais abrangente.
+
+O sistema busca dar governança, padronização, articulação, infraestrutura e 
+serviços de inovação para que os centros possam cumprir seu papel de forma 
+integrada, transformando o estado em um grande polo tecnológico.
+
+USUÁRIOS DO SISTEMA:
+- Startups e empreendedores inovadores (desde a ideia até o negócio em crescimento)
+- Empresas consolidadas que desejam incorporar cultura de inovação
+- Instituições de pesquisa, universidades, centros tecnológicos
+- Investidores, mentores, agentes de fomento, governo local/regional
+- Sociedade como um todo ou região geográfica que se beneficia com mais inovação
+
+================================================================================
+2. GLOSSÁRIO DE TERMOS
+================================================================================
+
+CENTRO DE INOVAÇÃO:
+Um centro de inovação é um espaço — físico ou híbrido — voltado para fomentar 
+e apoiar o empreendedorismo inovador, conectar pessoas, empresas, pesquisa, 
+tecnologias e facilitar o desenvolvimento de ideias até modelos de negócio ou 
+soluções de mercado.
+
+Segundo a SCTI-SC, os "Centros de Inovação são ambientes criados para promover 
+e dar suporte ao empreendedorismo inovador, ajudando a criar e expandir 
+negócios inovadores". Além disso, costuma-se dizer que esses centros funcionam 
+como comunidades que reúnem talentos, tecnologia, capital e conhecimento, 
+favorecendo networking, parcerias, prototipagem e comercialização de produtos, 
+processos ou serviços inovadores.
+
+Sinônimos: Hub de Inovação, Parque Tecnológico (ex: Orion Parque, Ágora Tech 
+Park, Pollen Parque), Incubadora (embora uma incubadora possa ser parte de um 
+centro).
+
+ATOR:
+Um ATOR é qualquer entidade que compõe o ecossistema de inovação e se relaciona 
+com um Centro de Inovação. Com base no modelo da Hélice Tríplice, isso inclui o 
+Setor Privado (startups, empresas de pequeno, médio e grande porte), a Academia 
+(universidades, instituições de pesquisa) e o Governo (prefeituras, órgãos de 
+fomento), além de patrocinadores e outras entidades parceiras.
+
+Sinônimos: Empresa, Organização, Entidade, Startup, Instituições de Ensino / 
+Universidades, Órgãos Públicos.
+
+EMPRESA INCUBADA:
+Uma "EMPRESA INCUBADA" é uma empresa em estágio inicial (startup) que está 
+recebendo suporte direto de um Centro de Inovação para se desenvolver. Esse 
+suporte faz parte dos serviços de "Suporte ao Ciclo de Vida" oferecidos pelos 
+centros, ajudando a transformar uma ideia em um negócio viável, muitas vezes 
+incluindo mentoria e espaço físico.
+
+PROGRAMA:
+No contexto deste sistema, um "PROGRAMA" é uma iniciativa específica que um ator 
+oferece ou da qual participa. O foco principal do sistema é mapear programas de 
+inclusão, como o Jovem Aprendiz, mas também pode incluir outras iniciativas de 
+fomento (ex: da FAPESC), capacitação (ex: do SENAI) ou incubação (ex: MIDITEC).
+
+Um programa tem toda uma organização por trás, como o Prototipando a Quebrada 
+(PAQ), que é um projeto social e ONG com sede na Grande Florianópolis, fundado 
+em 2018, que tem como missão promover a mobilidade social através da tecnologia.
+
+Sinônimos: Iniciativa, Serviço, Projeto (embora possam ser conceitualmente 
+diferentes, às vezes são usados de forma intercambiável).
+
+DIFERENÇA ENTRE PROGRAMA E PROJETO:
+Um "programa" (como Incubação ou Jovem Aprendiz) é tipicamente uma iniciativa 
+contínua ou cíclica, focada em desenvolver empresas ou pessoas. Um "projeto" 
+(como os de P&D mencionados na pesquisa) geralmente tem um escopo, início, 
+meio e fim definidos para criar uma solução ou produto específico.
+
+================================================================================
+3. TIPOS E CLASSIFICAÇÕES
+================================================================================
+
+3.1. TIPOS DE ATORES:
+
+RESIDENTE:
+Uma empresa ou entidade que ocupa um espaço físico (escritório, coworking) 
+dentro das instalações do Centro de Inovação.
+
+INCUBADAS:
+Uma empresa em estágio inicial (startup) que participa ativamente de um 
+programa de incubação do centro.
+
+ASSOCIADAS:
+Entidades (como universidades, prefeituras, associações empresariais ou outras 
+empresas) que são parceiras formais do Centro de Inovação, contribuindo para a 
+governança e o ecossistema.
+
+INCUBADAS E RESIDENTES:
+Combinação das duas primeiras categorias (empresa que é tanto incubada quanto 
+residente).
+
+PATROCINADOR:
+Entidade que fornece apoio financeiro ao centro ou seus programas.
+
+Valores permitidos no campo tipo_ator:
+- residente
+- incubadas
+- associadas
+- Incubadas e residentes
+- patrocinador
+
+3.2. TAMANHO DO ATOR:
+
+A categorização de porte das organizações foi realizada com base em três 
+dimensões principais: (1) quantidade estimada de funcionários / escala 
+operacional, (2) presença de mercado (escopo geográfico e institucional), e 
+(3) indicativos de faturamento ou relevância financeira.
+
+PEQUENA:
+- Até ~49 funcionários
+- Startups, micro-empresas, consultorias locais, iniciativas individuais
+- Muitas empresas com nomes de tecnologia/sistema
+
+MÉDIA:
+- 50–499 funcionários
+- Entidades regionais consolidadas
+- Empresas com operação em nível estadual/regional
+
+GRANDE:
+- 500+ funcionários
+- Prefeituras, universidades, órgãos estaduais
+- Cooperativas e grandes associações
+- Organizações com escala e papel institucional relevante
+- Empresas com presença nacional ou participação em cadeias maiores
+
+Valores permitidos no campo tamanho_ator:
+- Pequena
+- Média
+- Grande
+
+3.3. PARTICIPAÇÃO EM PROGRAMAS:
+
+PARTICIPA_PROGRAMA:
+Este campo indica se o ator está envolvido em programas monitorados pelo 
+sistema, com um foco principal em iniciativas de inclusão produtiva como o 
+Jovem Aprendiz.
+
+Valores possíveis:
+- Sim: O ator participa de um programa relevante (ex: Jovem Aprendiz)
+- Não: O ator não participa desses programas específicos
+- Sim/com_programa: Quando o Ator tem parceria com projetos de jovem 
+  aprendizagem, diferente do 'Sim' que só diz se tem algum jovem aprendiz na 
+  empresa, o 'Sim/com_programa' sempre terá toda uma estrutura de parceria com 
+  algum programa
+
+================================================================================
+4. ESTRUTURA DAS TABELAS
+================================================================================
+
+4.1. TABELA: estado
+--------------------------------------------------------------------------------
+Descrição: Armazena informações sobre os estados brasileiros e Distrito Federal.
+
+COLUNAS:
+
+• id_estado
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela estado
+  Obrigatório: Sim
+  Único: Sim
+
+• nome
+  Tipo: VARCHAR(100)
+  Descrição: Nome completo do estado (ex: Santa Catarina, São Paulo)
+  Obrigatório: Sim
+  Único: Não
+
+• sigla
+  Tipo: CHAR(2)
+  Descrição: Sigla do estado (ex: SC, SP, RJ)
+  Obrigatório: Sim
+  Único: Sim
+
+ÍNDICES:
+- idx_estado_sigla: Índice para busca rápida por sigla
+
+RELACIONAMENTOS:
+- Uma cidade pertence a um único estado (1:N com cidade)
+
+--------------------------------------------------------------------------------
+
+4.2. TABELA: cidade
+--------------------------------------------------------------------------------
+Descrição: Armazena informações sobre as cidades brasileiras, vinculadas aos 
+estados.
+
+COLUNAS:
+
+• id_cidade
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela cidade
+  Obrigatório: Sim
+  Único: Sim
+
+• nome
+  Tipo: VARCHAR(100)
+  Descrição: Nome da cidade (ex: Florianópolis, Blumenau, Joinville)
+  Obrigatório: Sim
+  Único: Não
+
+• id_estado
+  Tipo: INTEGER (Foreign Key → estado.id_estado)
+  Descrição: Chave estrangeira para estado
+  Obrigatório: Sim
+  Único: Não
+  Regra: Uma cidade sempre pertence a um único estado
+
+ÍNDICES:
+- idx_cidade_estado: Índice para busca por estado
+- idx_cidade_nome: Índice para busca por nome
+
+RELACIONAMENTOS:
+- Pertence a: estado (N:1)
+- Possui: bairros (1:N com bairro)
+
+--------------------------------------------------------------------------------
+
+4.3. TABELA: bairro
+--------------------------------------------------------------------------------
+Descrição: Armazena informações sobre os bairros das cidades.
+
+COLUNAS:
+
+• id_bairro
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela bairro
+  Obrigatório: Sim
+  Único: Sim
+
+• nome
+  Tipo: VARCHAR(100)
+  Descrição: Nome do bairro
+  Obrigatório: Sim
+  Único: Não
+
+• id_cidade
+  Tipo: INTEGER (Foreign Key → cidade.id_cidade)
+  Descrição: Chave estrangeira para cidade
+  Obrigatório: Sim
+  Único: Não
+  Regra: Um bairro sempre pertence a uma única cidade
+
+ÍNDICES:
+- idx_bairro_cidade: Índice para busca por cidade
+- idx_bairro_nome: Índice para busca por nome
+
+RELACIONAMENTOS:
+- Pertence a: cidade (N:1)
+- Possui: endereços (1:N com endereco)
+
+HIERARQUIA GEOGRÁFICA:
+Estado → Cidade → Bairro
+A hierarquia funciona de forma que:
+- Uma cidade sempre pertence a um único estado
+- Um bairro sempre pertence a uma única cidade
+
+--------------------------------------------------------------------------------
+
+4.4. TABELA: tipo_logradouro
+--------------------------------------------------------------------------------
+Descrição: Armazena os tipos de logradouro (Rua, Avenida, Rodovia, etc.).
+
+COLUNAS:
+
+• id_tipo_de_logradouro
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela tipo_logradouro
+  Obrigatório: Sim
+  Único: Sim
+
+• nome
+  Tipo: VARCHAR(100)
+  Descrição: Nome do tipo de logradouro
+  Obrigatório: Sim
+  Único: Sim
+
+TIPOS MAIS COMUNS:
+- Rua: Para endereços em ruas
+- Avenida: Para endereços em avenidas
+- Rodovia: Para endereços em rodovias (ex: Rodovia José Carlos Daux)
+- Praça: Para endereços em praças
+- Travessa: Para endereços em travessas
+
+ÍNDICES:
+- idx_tipo_logradouro_nome: Índice para busca por nome
+
+RELACIONAMENTOS:
+- Possui: endereços (1:N com endereco)
+
+--------------------------------------------------------------------------------
+
+4.5. TABELA: endereco
+--------------------------------------------------------------------------------
+Descrição: Armazena endereços completos com logradouro, número e localização.
+
+COLUNAS:
+
+• id_endereco
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela endereco
+  Obrigatório: Sim
+  Único: Sim
+
+• nome_logradouro
+  Tipo: VARCHAR(100)
+  Descrição: Nome do logradouro (ex: Rua das Flores, Avenida Beira-Mar)
+  Obrigatório: Sim
+  Único: Não
+
+• numero
+  Tipo: INTEGER
+  Descrição: Número do endereço
+  Obrigatório: Não (mas recomendado)
+  Único: Não
+  Valor padrão quando não há número: 0000
+  Observação: Quando não há número (ex: sítio, chácara), usar valor padrão 0000
+
+• id_tipo_logradouro
+  Tipo: INTEGER (Foreign Key → tipo_logradouro.id_tipo_de_logradouro)
+  Descrição: Chave estrangeira para tipo de logradouro
+  Obrigatório: Sim
+  Único: Não
+
+• id_bairro
+  Tipo: INTEGER (Foreign Key → bairro.id_bairro)
+  Descrição: Chave estrangeira para bairro
+  Obrigatório: Sim
+  Único: Não
+
+ÍNDICES:
+- idx_endereco_tipo_logradouro: Índice para busca por tipo de logradouro
+- idx_endereco_bairro: Índice para busca por bairro
+
+RELACIONAMENTOS:
+- Pertence a: tipo_logradouro (N:1)
+- Pertence a: bairro (N:1)
+- Relacionado a: centros de inovação (N:N via endereco_centro)
+
+--------------------------------------------------------------------------------
+
+4.6. TABELA: telefone
+--------------------------------------------------------------------------------
+Descrição: Armazena números de telefone com código de área.
+
+COLUNAS:
+
+• id_telefone
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela telefone
+  Obrigatório: Sim
+  Único: Sim
+
+• codigo_area
+  Tipo: CHAR(2)
+  Descrição: Código de área (DDD - Discagem Direta à Distância) da região do 
+            telefone (ex: 48 para Florianópolis, 47 para Joinville)
+  Obrigatório: Sim
+  Único: Não
+  Observação: Sempre obrigatório. Refere-se ao "Código de Discagem Direta" 
+              (DDD) da região do telefone.
+
+• numero
+  Tipo: VARCHAR(30)
+  Descrição: Número do telefone (sem código de área)
+  Obrigatório: Não
+  Único: Não
+
+ÍNDICES:
+- idx_telefone_numero: Índice para busca por número
+
+RELACIONAMENTOS:
+- Relacionado a: contatos (N:N via contato_telefone)
+
+--------------------------------------------------------------------------------
+
+4.7. TABELA: contato
+--------------------------------------------------------------------------------
+Descrição: Armazena informações de contato (email e telefone). É a entidade que 
+armazena as informações de contato (provavelmente o e-mail principal) e se 
+associa a um ou mais números de telefone através de uma tabela de relacionamento.
+
+COLUNAS:
+
+• id_contato
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela contato
+  Obrigatório: Sim
+  Único: Sim
+
+• email
+  Tipo: VARCHAR(100)
+  Descrição: Email de contato
+  Obrigatório: Sim
+  Único: Não
+  Observação: O email é obrigatório para um contato
+
+• id_telefone
+  Tipo: INTEGER (Foreign Key → telefone.id_telefone)
+  Descrição: Chave estrangeira para telefone (telefone principal)
+  Obrigatório: Sim
+  Único: Não
+  Observação: Um contato pode ter mais de um telefone através da tabela 
+              associativa contato_telefone
+
+ÍNDICES:
+- idx_contato_telefone: Índice para busca por telefone
+- idx_contato_email: Índice para busca por email
+
+RELACIONAMENTOS:
+- Possui telefone principal: telefone (N:1)
+- Possui telefones adicionais: telefone (N:N via contato_telefone)
+- Possui: centros de inovação (1:N com centros_inovacao)
+
+MÚLTIPLOS TELEFONES:
+Um contato pode ter mais de um telefone. Isso é representado através da tabela 
+associativa contato_telefone, que liga um id_contato a um ou mais id_telefone.
+
+--------------------------------------------------------------------------------
+
+4.8. TABELA: contato_telefone
+--------------------------------------------------------------------------------
+Descrição: Tabela de relacionamento N-N entre CONTATO e TELEFONE. Permite que 
+um contato tenha múltiplos telefones e um telefone possa estar em múltiplos 
+contatos.
+
+COLUNAS:
+
+• id_contato_telefone
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela contato_telefone
+  Obrigatório: Sim
+  Único: Sim
+
+• id_contato
+  Tipo: INTEGER (Foreign Key → contato.id_contato)
+  Descrição: Chave estrangeira para contato
+  Obrigatório: Sim
+  Único: Não
+
+• id_telefone
+  Tipo: INTEGER (Foreign Key → telefone.id_telefone)
+  Descrição: Chave estrangeira para telefone
+  Obrigatório: Sim
+  Único: Não
+
+CONSTRAINT:
+- uk_contato_telefone: UNIQUE (id_contato, id_telefone) - Garante que um 
+  contato não tenha o mesmo telefone duplicado
+
+ÍNDICES:
+- idx_contato_telefone_contato: Índice para busca por contato
+- idx_contato_telefone_telefone: Índice para busca por telefone
+
+RELACIONAMENTOS:
+- Relaciona: contato (N:1)
+- Relaciona: telefone (N:1)
+
+--------------------------------------------------------------------------------
+
+4.9. TABELA: centros_inovacao
+--------------------------------------------------------------------------------
+Descrição: Armazena informações sobre os centros de inovação. Um centro de 
+inovação é um espaço — físico ou híbrido — voltado para fomentar e apoiar o 
+empreendedorismo inovador.
+
+COLUNAS:
+
+• id_centro
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela centros_inovacao
+  Obrigatório: Sim
+  Único: Sim
+
+• nome
+  Tipo: VARCHAR(100)
+  Descrição: Nome do centro de inovação
+  Obrigatório: Sim
+  Único: Não
+
+• ano_fundacao
+  Tipo: DATE
+  Descrição: Data de fundação daquele determinado centro de inovação
+  Obrigatório: Não
+  Único: Não
+  Observação: Pode armazenar data completa ou apenas o ano, dependendo dos dados 
+              disponíveis
+
+• id_contato
+  Tipo: INTEGER (Foreign Key → contato.id_contato)
+  Descrição: Chave estrangeira para contato (contato principal do centro)
+  Obrigatório: Sim
+  Único: Não
+  Observação: Um centro está ligado a um registro principal de contato. No 
+              entanto, a tabela contato_telefone permite associar múltiplos 
+              números de telefone a esse registro de contato.
+
+ÍNDICES:
+- idx_centros_inovacao_contato: Índice para busca por contato
+- idx_centros_inovacao_nome: Índice para busca por nome
+
+RELACIONAMENTOS:
+- Possui contato: contato (N:1)
+- Possui endereços: endereco (N:N via endereco_centro)
+- Possui: atores (1:N com ator)
+
+MÚLTIPLOS ENDEREÇOS:
+Um centro de inovação pode ter mais de um endereço. Isso pode ocorrer se um 
+centro tiver múltiplos prédios, campus ou sedes. A estrutura do banco de dados 
+possui uma tabela associativa (endereco_centro) que permite vincular múltiplos 
+endereços a um mesmo centro de inovação.
+
+MÚLTIPLOS CONTATOS:
+Um centro está ligado a um registro principal de contato (que armazena o 
+e-mail). No entanto, a tabela contato_telefone permite associar múltiplos 
+números de telefone a esse registro de contato.
+
+--------------------------------------------------------------------------------
+
+4.10. TABELA: endereco_centro
+--------------------------------------------------------------------------------
+Descrição: Tabela de relacionamento N-N entre CENTROS_INOVACAO e ENDERECO. 
+Permite que um centro tenha múltiplos endereços e um endereço possa estar 
+vinculado a múltiplos centros.
+
+COLUNAS:
+
+• id_endereco_centro
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela endereco_centro
+  Obrigatório: Sim
+  Único: Sim
+
+• id_endereco
+  Tipo: INTEGER (Foreign Key → endereco.id_endereco)
+  Descrição: Chave estrangeira para endereço
+  Obrigatório: Sim
+  Único: Não
+
+• id_centro
+  Tipo: INTEGER (Foreign Key → centros_inovacao.id_centro)
+  Descrição: Chave estrangeira para centro de inovação
+  Obrigatório: Sim
+  Único: Não
+
+CONSTRAINT:
+- uk_endereco_centro: UNIQUE (id_endereco, id_centro) - Garante que um centro 
+  não tenha o mesmo endereço duplicado
+
+ÍNDICES:
+- idx_endereco_centro_endereco: Índice para busca por endereço
+- idx_endereco_centro_centro: Índice para busca por centro
+
+RELACIONAMENTOS:
+- Relaciona: endereco (N:1)
+- Relaciona: centros_inovacao (N:1)
+
+--------------------------------------------------------------------------------
+
+4.11. TABELA: ator
+--------------------------------------------------------------------------------
+Descrição: Armazena informações sobre os atores que participam dos centros de 
+inovação. Um ATOR é qualquer entidade que compõe o ecossistema de inovação e se 
+relaciona com um Centro de Inovação.
+
+COLUNAS:
+
+• id_ator
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela ator
+  Obrigatório: Sim
+  Único: Sim
+
+• nome
+  Tipo: VARCHAR(100)
+  Descrição: Nome do ator (empresa, organização, entidade)
+  Obrigatório: Sim
+  Único: Não
+
+• tipo_ator
+  Tipo: VARCHAR(50)
+  Descrição: Tipo do ator
+  Obrigatório: Não
+  Único: Não
+  Valores permitidos:
+    - residente: Empresa ou entidade que ocupa espaço físico no centro
+    - incubadas: Empresa em estágio inicial que participa de programa de incubação
+    - associadas: Entidades parceiras formais do centro
+    - Incubadas e residentes: Combinação das duas primeiras categorias
+    - patrocinador: Entidade que fornece apoio financeiro
+
+• participa_programa
+  Tipo: VARCHAR(50)
+  Descrição: Indica se o ator está envolvido em programas monitorados pelo 
+            sistema, com foco em iniciativas de inclusão produtiva como o 
+            Jovem Aprendiz
+  Obrigatório: Não
+  Único: Não
+  Valores possíveis:
+    - Sim: O ator participa de um programa relevante (ex: Jovem Aprendiz)
+    - Não: O ator não participa desses programas específicos
+    - Sim/com_programa: Quando o Ator tem parceria com projetos de jovem 
+      aprendizagem, sempre terá toda uma estrutura de parceria com algum programa
+
+• tamanho_ator
+  Tipo: VARCHAR(50)
+  Descrição: Tamanho/porte do ator
+  Obrigatório: Não
+  Único: Não
+  Valores permitidos:
+    - Pequena: Até ~49 funcionários, startups, micro-empresas
+    - Média: 50–499 funcionários, empresas regionais consolidadas
+    - Grande: 500+ funcionários, prefeituras, universidades, órgãos estaduais
+  Critério de classificação: Baseado em (1) quantidade de funcionários, 
+  (2) presença de mercado, (3) indicativos de faturament
+
+• cnpj
+  Tipo: CHAR(14)
+  Descrição: CNPJ do ator
+  Obrigatório: Não
+  Único: Não
+  Observação: Pode ser nulo, mas sempre que tiver fontes confiáveis ele deve 
+              existir. Campos obrigatórios podem ficar vazios temporariamente 
+              durante o cadastro.
+
+• id_centro
+  Tipo: INTEGER (Foreign Key → centros_inovacao.id_centro)
+  Descrição: Chave estrangeira para centro de inovação
+  Obrigatório: Sim
+  Único: Não
+  Observação: Um ator pode estar associado a mais de um centro de inovação 
+              (através de múltiplos registros)
+
+ÍNDICES:
+- idx_ator_centro: Índice para busca por centro
+- idx_ator_nome: Índice para busca por nome
+- idx_ator_cnpj: Índice para busca por CNPJ
+
+RELACIONAMENTOS:
+- Pertence a: centros_inovacao (N:1)
+- Possui: programas (1:N com programa)
+
+RELAÇÃO COM CENTRO:
+A relação depende do tipo de ator. Eles podem ser:
+- Clientes/Membros: Empresas residentes ou incubadas que utilizam a 
+  infraestrutura e os serviços do centro
+- Parceiros: Entidades associadas (como universidades, governo, associações) 
+  que participam da governança e do ecossistema
+- Patrocinadores: Entidades que fornecem apoio financeiro
+
+MÚLTIPLOS CENTROS:
+Um ator pode estar associado a mais de um centro de inovação. Isso é 
+representado através de múltiplos registros na tabela ator, cada um vinculado 
+a um centro diferente.
+
+--------------------------------------------------------------------------------
+
+4.12. TABELA: programa
+--------------------------------------------------------------------------------
+Descrição: Armazena informações sobre os programas oferecidos pelos atores. Um 
+"PROGRAMA" é uma iniciativa específica que um ator oferece ou da qual participa, 
+com foco em programas de inclusão, como o Jovem Aprendiz.
+
+COLUNAS:
+
+• id_programa
+  Tipo: INTEGER (Primary Key)
+  Descrição: Chave primária da tabela programa
+  Obrigatório: Sim
+  Único: Sim
+
+• nome
+  Tipo: VARCHAR(100)
+  Descrição: Nome do programa (ex: Jovem Aprendiz, Incubação, Aceleração)
+  Obrigatório: Sim
+  Único: Não
+
+• ano_inicio
+  Tipo: DATE
+  Descrição: Ano de início de um programa
+  Obrigatório: Não
+  Único: Não
+  Observação: Pode armazenar data completa ou apenas o ano
+
+• descricao
+  Tipo: TEXT
+  Descrição: Descrição detalhada do programa
+  Obrigatório: Não
+  Único: Não
+
+• id_ator
+  Tipo: INTEGER (Foreign Key → ator.id_ator)
+  Descrição: Chave estrangeira para ator (ator que oferece ou participa do 
+            programa)
+  Obrigatório: Sim
+  Único: Não
+  Observação: Cada registro de programa está vinculado diretamente a um único 
+              ator. No entanto, um mesmo ator pode ter múltiplos programas.
+
+ÍNDICES:
+- idx_programa_ator: Índice para busca por ator
+- idx_programa_nome: Índice para busca por nome
+
+RELACIONAMENTOS:
+- Pertence a: ator (N:1)
+
+MÚLTIPLOS PROGRAMAS POR ATOR:
+Um ator pode ter mais de um programa. Conforme o Relatório do Banco de Dados, 
+um mesmo ator pode estar associado a múltiplos programas (ex: CIEE e SENAI / 
+SESI / FIESC aparecem com 2 programas cada).
+
+PROGRAMA POR MÚLTIPLOS ATORES:
+Com base na estrutura do banco de dados (tabela programa com FK id_ator), cada 
+registro de programa está vinculado diretamente a um único ator. Se um programa 
+é oferecido por múltiplos atores, cada ator terá seu próprio registro de 
+programa.
+
+--------------------------------------------------------------------------------
+
+================================================================================
+5. RELACIONAMENTOS ENTRE TABELAS
+================================================================================
+
+DIAGRAMA DE RELACIONAMENTOS:
+
+Estado (1) ──→ (N) Cidade (1) ──→ (N) Bairro (1) ──→ (N) Endereço
+                                                                  │
+                                                                  │ (N:N)
+                                                                  │
+Tipo Logradouro (1) ──→ (N) Endereço ──→ (N:N) ──→ Centro de Inovação
+                                                                  │
+                                                                  │ (1:N)
+                                                                  │
+Telefone (N) ──→ (N:N) ──→ Contato (1) ──→ (N) Centro de Inovação
+                                                                  │
+                                                                  │ (1:N)
+                                                                  │
+                                                               Ator (1:N) Programa
+
+RESUMO DOS RELACIONAMENTOS:
+
+1. Estado → Cidade (1:N)
+   - Um estado possui várias cidades
+   - Uma cidade pertence a um único estado
+
+2. Cidade → Bairro (1:N)
+   - Uma cidade possui vários bairros
+   - Um bairro pertence a uma única cidade
+
+3. Bairro → Endereço (1:N)
+   - Um bairro possui vários endereços
+   - Um endereço pertence a um único bairro
+
+4. Tipo Logradouro → Endereço (1:N)
+   - Um tipo de logradouro possui vários endereços
+   - Um endereço pertence a um único tipo de logradouro
+
+5. Endereço ↔ Centro de Inovação (N:N via endereco_centro)
+   - Um endereço pode estar vinculado a vários centros
+   - Um centro pode ter vários endereços
+
+6. Telefone ↔ Contato (N:N via contato_telefone)
+   - Um telefone pode estar vinculado a vários contatos
+   - Um contato pode ter vários telefones
+
+7. Contato → Centro de Inovação (1:N)
+   - Um contato pode estar vinculado a vários centros
+   - Um centro possui um contato principal
+
+8. Centro de Inovação → Ator (1:N)
+   - Um centro possui vários atores
+   - Um ator pertence a um único centro (por registro)
+
+9. Ator → Programa (1:N)
+   - Um ator possui vários programas
+   - Um programa pertence a um único ator
+
+================================================================================
+6. REGRAS DE NEGÓCIO E VALIDAÇÕES
+================================================================================
+
+6.1. CAMPOS OBRIGATÓRIOS:
+
+Campos marcados como NOT NULL no banco de dados são obrigatórios. No entanto, 
+alguns campos obrigatórios podem ficar vazios temporariamente durante o 
+processo de cadastro, sendo preenchidos posteriormente quando as informações 
+estiverem disponíveis.
+
+6.2. VALORES PERMITIDOS:
+
+tipo_ator:
+- residente
+- incubadas
+- associadas
+- Incubadas e residentes
+- patrocinador
+
+tamanho_ator:
+- Pequena
+- Média
+- Grande
+
+participa_programa:
+- Sim
+- Não
+- Sim/com_programa
+
+6.3. REGRAS ESPECÍFICAS:
+
+CNPJ:
+- Pode ser nulo, mas sempre que tiver fontes confiáveis ele deve existir
+- Campos obrigatórios podem ficar vazios temporariamente durante o cadastro
+
+NÚMERO DO ENDEREÇO:
+- Quando não há número (ex: sítio, chácara), usar valor padrão: 0000
+
+CÓDIGO DE ÁREA (DDD):
+- Sempre obrigatório
+- Refere-se ao "Código de Discagem Direta" (DDD) da região do telefone
+
+EMAIL:
+- Obrigatório para um contato
+
+6.4. EXCLUSÃO EM CASCADE:
+
+Quando um centro de inovação é excluído:
+- Os atores associados também devem ser excluídos (cascade)
+- Os programas dos atores também devem ser excluídos (cascade)
+
+Observação: A estrutura atual do banco usa ON DELETE RESTRICT para atores e 
+programas. Para implementar exclusão em cascade, seria necessário alterar as 
+constraints das Foreign Keys.
+
+================================================================================
+7. FONTES DE DADOS E REFERÊNCIAS
+================================================================================
+
+O projeto utiliza fontes de dados públicas com definições próprias:
+
+- RAIS (Relação Anual de Informações Sociais)
+- Receita Federal (CNPJ)
+- IBGE (dados geográficos)
+
+A conceituação dos Centros de Inovação de SC baseia-se no modelo da SCTI 
+(Secretaria de Estado da Ciência, Tecnologia e Inovação de Santa Catarina), 
+que publicou o "Guia de Desenvolvimento de Ecossistemas e Centros de Inovação".
+
+================================================================================
+8. USO DO SISTEMA E CONSULTAS PRINCIPAIS
+================================================================================
+
+OBJETIVO DE USO:
+O sistema será usado para fornecer uma base de dados consolidada ao Programa 
+Prototipando a Quebrada (PAQ). O objetivo principal é permitir a realização 
+de análises e a tomada de decisão estratégica, integrando os dados com 
+ferramentas de Business Intelligence (Power BI, Metabase), para planejar e 
+executar ações de inclusão produtiva de jovens no mercado de trabalho.
+
+CONSULTAS PRINCIPAIS:
+
+1. Mapeamento de centros de inovação por município
+2. Lista de empresas (atores) por centro, classificadas por porte (Pequena, 
+   Média, Grande)
+3. Identificação de empresas (atores) que participam ou não de programas de 
+   Jovem Aprendiz
+
+MÉTRICAS E INDICADORES:
+
+1. Total de atores por centro de inovação
+2. Percentual/Taxa de participação dos atores em programas de Jovem Aprendiz
+3. Distribuição de atores por porte (Pequena, Média, Grande)
+
+================================================================================
+9. ROADMAP E EXPANSÕES FUTURAS
+================================================================================
+
+Pensando em futuro/roadmap, planeja-se:
+
+- Especificar mais sobre os programas e classificá-los
+- Especificar certas cidades
+- Expandir para o Brasil inteiro (atualmente focado em Santa Catarina)
+
+================================================================================
+10. ÍNDICES E PERFORMANCE
+================================================================================
+
+O banco de dados possui índices criados para otimizar as consultas mais 
+frequentes:
+
+- Índices em chaves estrangeiras (FKs) para joins rápidos
+- Índices em campos de busca frequente (nome, sigla, email, CNPJ)
+- Índices em campos de ordenação (nome de centros, atores, programas)
+
+================================================================================
+FIM DO DICIONÁRIO DE DADOS
+================================================================================
+
+Este dicionário foi criado com base nas respostas do questionário de 
+coleta de informações e na estrutura do banco de dados PostgreSQL.
+
+Para atualizações ou dúvidas, consulte a documentação do projeto ou entre em 
+contato com a equipe de desenvolvimento.
+
+Data de última atualização: 17/11/2025
+Versão: 1.0
+
